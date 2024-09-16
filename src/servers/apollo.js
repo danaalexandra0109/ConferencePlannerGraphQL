@@ -6,7 +6,7 @@ const { ApolloServer } = require('@apollo/server'),
   {
     errorHandlingMiddleware,
     // correlationMiddleware,
-    loggingMiddleware,
+    loggingMiddleware
     // jwtTokenValidation,
     // jwtTokenUserIdentification
   } = require('../middleware'),

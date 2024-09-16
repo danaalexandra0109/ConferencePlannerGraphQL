@@ -79,8 +79,6 @@ const conferenceMutationResolvers = {
           select: { name: true, locationId: true }
         })
         await prismaClient.conference.delete({ where: { id } })
-        
-        if (conference?.locationId) await prismaClient.location.delete({ where: { id: conference.locationId } })
 
         return conference.name
       })
