@@ -59,17 +59,20 @@ const conferenceMutationResolvers = {
           }, speakers)
         )
 
-        return updatedConference
+        return prismaClient.conference.findUnique({
+          where: { id: updatedConference.id },
+          include: { conferenceXSpeaker: { include: { speaker: true } } }
+        })
       })
-
-      // await Promise.all(
-      //   map(async speaker => {
-      //     await dataSources.conferenceApi.sendSMSNotification({
-      //       conferenceId: result.id,
-      //       receiverId: speaker.id
-      //     })
-      //   }, input.speakers)
-      // )
+      const updatedSpeakers = result.conferenceXSpeaker.map(s => s.speaker)
+      await Promise.all(
+        map(async speaker => {
+          await dataSources.conferenceApi.sendSMSNotification({
+            conferenceId: result.id,
+            reciverId: speaker.id
+          })
+        }, updatedSpeakers)
+      )
       return result
     },
     deleteConference: async (_parent, { id }, _ctx, _info) => {

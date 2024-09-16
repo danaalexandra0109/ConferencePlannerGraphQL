@@ -7,7 +7,7 @@ class ConferenceApi extends RESTDataSource {
   }
 
   async sendSMSNotification(body) {
-    const response = await this.post('notification/SendSpeakerSmsNotification', { body })
+    const response = await this.post('Notification/SendSpeakerSmsNotification', { body })
     return response
   }
 }
