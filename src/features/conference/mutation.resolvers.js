@@ -1,6 +1,22 @@
 const { prisma } = require('../../prisma')
 const { map } = require('ramda')
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+const extractNameFromEmail = email => {
+  const segments = email.split('@')
+  if (segments.length <= 0) return email
+  const nameSegments = segments[0].split('.')
+  if (nameSegments.length <= 1) return nameSegments[0]
+  let firstName = nameSegments[0]
+  let lastName = nameSegments[1]
+  firstName = capitalizeFirstLetter(firstName)
+  lastName = capitalizeFirstLetter(lastName)
+  return firstName + ' ' + lastName
+}
+
 const conferenceMutationResolvers = {
   Mutation: {
     saveConference: async (_parent, { input }, { dataSources }, _info) => {
@@ -67,7 +83,7 @@ const conferenceMutationResolvers = {
       const updatedSpeakers = result.conferenceXSpeaker.map(s => s.speaker)
       await Promise.all(
         map(async speaker => {
-          await dataSources.conferenceApi.sendSMSNotification({
+          await dataSources.conferenceApi.sendSpeakerSMSNotification({
             conferenceId: result.id,
             reciverId: speaker.id
           })
@@ -75,6 +91,7 @@ const conferenceMutationResolvers = {
       )
       return result
     },
+
     deleteConference: async (_parent, { id }, _ctx, _info) => {
       const result = await prisma().$transaction(async prismaClient => {
         const conference = await prismaClient.conference.findUnique({
@@ -87,19 +104,40 @@ const conferenceMutationResolvers = {
       })
       return result
     },
-    changeAttendanceStatus: async (_parent, { input }, _ctx, _info) => {
-      await prisma().conferenceXAttendee.upsert({
+
+    // Modify changeAttendanceStatus to send SMS notifications
+    changeAttendanceStatus: async (_parent, { input }, { dataSources }, _info) => {
+      // Upsert the attendance status for the attendee
+      const updatedAttendee = await prisma().conferenceXAttendee.upsert({
         where: {
-          attendeeEmail_conferenceId: { conferenceId: input.conferenceId, attendeeEmail: input.attendeeEmail }
+          attendeeEmail_conferenceId: {
+            conferenceId: input.conferenceId,
+            attendeeEmail: input.attendeeEmail
+          }
         },
         update: { statusId: input.statusId },
         create: {
           conferenceId: input.conferenceId,
           attendeeEmail: input.attendeeEmail,
-          statusId: input.statusId
+          statusId: input.statusId,
+          name: extractNameFromEmail(input.attendeeEmail)
+        },
+        include: {
+          conference: true, // Include the related conference if needed
+          dictionaryStatus: true // Include the related status if needed
         }
       })
-      return null
+
+      // Send SMS notification to the attendee after they hit "attend"
+      if (updatedAttendee.statusId === 3) {
+        // Assuming '3' is the statusId for attending
+        await dataSources.conferenceApi.sendParticipantEmailNotification({
+          conferenceId: input.conferenceId,
+          reciverId: updatedAttendee.id // Sending notification to the attendee
+        })
+      }
+
+      return updatedAttendee
     }
   }
 }

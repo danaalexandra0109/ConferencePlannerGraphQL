@@ -6,8 +6,12 @@ class ConferenceApi extends RESTDataSource {
     this.baseURL = process.env.API_URL
   }
 
-  async sendSMSNotification(body) {
+  async sendSpeakerSMSNotification(body) {
     const response = await this.post('Notification/SendSpeakerSmsNotification', { body })
+    return response
+  }
+  async sendParticipantEmailNotification(body) {
+    const response = await this.post('Notification/SendParticipantEmailNotification', { body })
     return response
   }
 }
