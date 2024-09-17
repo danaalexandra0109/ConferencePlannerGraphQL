@@ -14,6 +14,10 @@ class ConferenceApi extends RESTDataSource {
     const response = await this.post('Notification/SendParticipantEmailNotification', { body })
     return response
   }
+  async sendSpeakerEmailNotification(body) {
+    const response = await this.post('Notification/SendSpeakerEmailNotification', { body })
+    return response
+  }
 }
 
 module.exports = ConferenceApi
