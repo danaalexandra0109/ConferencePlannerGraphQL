@@ -144,7 +144,7 @@ const conferenceMutationResolvers = {
         })
       }
 
-      return updatedAttendee
+      // return updatedAttendee
     }
   }
 }
