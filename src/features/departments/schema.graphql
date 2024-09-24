@@ -1,0 +1,6 @@
+type Departments {
+  name: String
+  code: String
+  description: String
+  employees: Int
+}
