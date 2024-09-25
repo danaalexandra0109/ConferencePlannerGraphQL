@@ -1,6 +1,11 @@
-type Departments {
+type Departament {
+  id: Int
   name: String
   code: String
   description: String
   employees: Int
+}
+
+extend type Query {
+  departmentsList: [Departament]
 }
