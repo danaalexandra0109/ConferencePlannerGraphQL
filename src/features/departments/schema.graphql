@@ -6,6 +6,15 @@ type Departament {
   employees: Int
 }
 
+# type ResponseType {
+#   success: Boolean
+#   message: String
+# }
+
 extend type Query {
   departmentsList: [Departament]
+}
+
+extend type Mutation {
+  deleteDepartment(id: Int): String
 }

@@ -20,8 +20,8 @@ class DepartamentsApi extends RESTDataSource {
     return response
   }
 
-  async DeleteDepartament() {
-    const response = await this.DeleteDepartament('Departaments/delete-departament')
+  async DeleteDepartament(id) {
+    const response = await this.delete(`Departaments/delete-departament/${id}`)
     return response
   }
 }
