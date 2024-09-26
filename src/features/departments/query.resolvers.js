@@ -3,6 +3,11 @@ const departmentResolvers = {
     departmentsList: async (_parent, _args, { dataSources }, _info) => {
       const response = await dataSources.departamentsApi.GetAllDepartaments()
       return response
+    },
+
+    departamentData: async (_parent, _args, { id }, { dataSources }, _info) => {
+      const response = await dataSources.departamentsApi.GetDepartament(id)
+      return response
     }
   }
 }

@@ -13,8 +13,11 @@ type Departament {
 
 extend type Query {
   departmentsList: [Departament]
+  departamentData: Departament
 }
 
 extend type Mutation {
   deleteDepartment(id: Int): String
+  updateDepartment(id: Int): String
+  addDepartment: String
 }

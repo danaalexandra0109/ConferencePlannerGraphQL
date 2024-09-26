@@ -24,6 +24,11 @@ class DepartamentsApi extends RESTDataSource {
     const response = await this.delete(`Departaments/delete-departament/${id}`)
     return response
   }
+
+  async GetDepartament(id) {
+    const response = await this.get(`Departaments/get-departament/${id}`)
+    return response
+  }
 }
 
 module.exports = DepartamentsApi
