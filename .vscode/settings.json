@@ -7,5 +7,15 @@
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
-  "cSpell.words": ["departament", "Departaments"]
+  "cSpell.words": [
+    "bodyparser",
+    "datasource",
+    "departament",
+    "Departaments",
+    "jwks",
+    "mssqlserver",
+    "opentelemetry",
+    "pino",
+    "totalsoft"
+  ]
 }
