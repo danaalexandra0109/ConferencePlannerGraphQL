@@ -13,7 +13,7 @@ type Departament {
 
 extend type Query {
   departmentsList: [Departament]
-  departamentData: Departament
+  departamentData(id: Int!): Departament
 }
 
 extend type Mutation {
