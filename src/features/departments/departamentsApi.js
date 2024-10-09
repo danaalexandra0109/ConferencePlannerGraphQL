@@ -15,8 +15,8 @@ class DepartamentsApi extends RESTDataSource {
     return response
   }
 
-  async UpdateDepartament(body) {
-    const response = await this.put('Departaments/put-departament', { body })
+  async UpdateDepartament(id, body) {
+    const response = await this.put(`Departaments/put-departament/${id}`, { body })
     return response
   }
 

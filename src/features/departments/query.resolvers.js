@@ -5,7 +5,7 @@ const departmentResolvers = {
       return response
     },
 
-    departamentData: async (_parent, _args, { id }, { dataSources }, _info) => {
+    departamentData: async (_parent, { id }, { dataSources }, _info) => {
       const response = await dataSources.departamentsApi.GetDepartament(id)
       return response
     }

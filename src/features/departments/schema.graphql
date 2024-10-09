@@ -6,10 +6,20 @@ type Departament {
   employees: Int
 }
 
-# type ResponseType {
-#   success: Boolean
-#   message: String
-# }
+input EditDep {
+  id: Int
+  name: String
+  code: String
+  description: String
+  employees: Int
+}
+
+input AddDep {
+  name: String
+  code: String
+  description: String
+  employees: Int
+}
 
 extend type Query {
   departmentsList: [Departament]
@@ -18,6 +28,6 @@ extend type Query {
 
 extend type Mutation {
   deleteDepartment(id: Int): String
-  updateDepartment(id: Int): String
-  addDepartment: String
+  updateDepartment(input: EditDep): String
+  addDepartment(input: AddDep): String
 }
