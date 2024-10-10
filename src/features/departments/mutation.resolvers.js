@@ -8,7 +8,7 @@ const departmentMutationResolvers = {
     updateDepartment: async (_parent, { input }, { dataSources }, _info) => {
       const { id, name, code, employees, description } = input
       const body = { name: name, code: code, employees: employees, description: description }
-      const response = await dataSources.departamentsApi.UpdateDepartment(id, body)
+      const response = await dataSources.departamentsApi.updateDepartment(id, body)
       return response
     },
 

@@ -6,27 +6,27 @@ class DepartamentsApi extends RESTDataSource {
     this.baseURL = process.env.API_URL
   }
   async GetAllDepartaments() {
-    const response = await this.get('Departaments/get-departaments')
+    const response = await this.get('Departaments/departaments')
     return response
   }
 
   async CreateDepartament(body) {
-    const response = await this.post('Departaments/post-departament', { body })
+    const response = await this.post('Departaments/departament', { body })
     return response
   }
 
-  async UpdateDepartament(id, body) {
-    const response = await this.put(`Departaments/put-departament/${id}`, { body })
+  async updateDepartment(id, body) {
+    const response = await this.put(`Departaments/departament/${id}`, { body })
     return response
   }
 
   async DeleteDepartament(id) {
-    const response = await this.delete(`Departaments/delete-departament/${id}`)
+    const response = await this.delete(`Departaments/departament/${id}`)
     return response
   }
 
   async GetDepartament(id) {
-    const response = await this.get(`Departaments/get-departament/${id}`)
+    const response = await this.get(`Departaments/departament/${id}`)
     return response
   }
 }
